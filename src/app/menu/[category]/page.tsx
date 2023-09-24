@@ -5,12 +5,12 @@ import React from 'react';
 
 type Props = {
   params: {
-    category: String,
+    category: string,
   }
 };
 
 
-const getData = async (category: String) => {
+const getData = async (category: string) => {
   const res = await fetch(`http://localhost:3000/api/products?cat=${category}`, {
     cache: "no-store"
   });

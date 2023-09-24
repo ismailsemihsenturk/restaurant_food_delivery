@@ -1,5 +1,6 @@
 export type MenuType = {
-    id: number;
+    [index: number]: MenuType;
+    id: string;
     slug: string;
     title: string;
     desc?: string;
@@ -8,27 +9,55 @@ export type MenuType = {
 }[];
 
 export type ProductType = {
-    id: number;
+    [index: number]: ProductType;
+    id: string;
     title: string;
     desc?: string;
     img?: string;
     price: number;
-    options?: { title: string; additionalPrice: number }[];
+    options: Options[],
+};
+export type Options = {
+    title: string,
+    additionalPrice: number,
 };
 
 export type OrderType = {
+    [index: number]: OrderType;
     id: string;
     createdAt: string;
     price: number;
     products: CartItemType[];
     status: string;
-}
+    intent_id?: String;
+};
 
 export type CartItemType = {
+    [index: number]: CartItemType;
     id: string;
     title: string;
     img?: string;
     price: number;
-    optionTitle: string;
+    optionTitle?: string;
     quantity: number;
-}
+};
+
+export type CartType = {
+    [index: number]: CartType;
+    products: CartItemType[];
+    totalItems: number;
+    totalPrice: number;
+};
+
+export type ActionTypes = {
+    addToCart: (item: CartItemType) => void;
+    removeFromCart: (item: CartItemType) => void;
+};
+
+export type Inputs = {
+    title: string;
+    desc: string;
+    price: number;
+    catSlug: string;
+};
+

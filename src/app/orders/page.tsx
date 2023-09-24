@@ -20,14 +20,14 @@ const OrdersPage = () => {
   // In server side we can just use fetch.But in client side react - query has a strong caching mechanism.
   const { isLoading, error, data } = useQuery({
     queryKey: ['orders'],
-    queryFn: () =>
-      fetch('http://localhost:3000/api/orders').then(
-        (res) => res.json(),
-      ),
+    queryFn: async (): Promise<OrderType[]> => {
+      const response = await fetch('http://localhost:3000/api/orders');
+      const orders = response.json() as Promise<OrderType[]>;
+      return orders;
+    }
   });
 
   const queryClient = useQueryClient();
-
 
   //Make a PUT request and if it's succeed than trigger orders query again.
   const mutation = useMutation({
@@ -72,7 +72,7 @@ const OrdersPage = () => {
         </thead>
         <tbody className=''>
           {
-            data.map((order: OrderType) => (
+            data?.map((order: OrderType, index: number) => (
               <tr className={`${order.status !== "delivered" && "bg-red-50"}`} key={order.id}>
                 <td className='hidden md:block py-6 px-1'>{order.id}</td>
                 <td className='py-6 px-1'>{order.createdAt}</td>
